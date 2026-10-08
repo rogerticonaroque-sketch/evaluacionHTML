@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Evaluación interactiva de HTML - 5to de Secundaria">
+  <title>Evaluación de HTML - 5to de Secundaria</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header class="school-header">
+      <div class="brand">
+        <img id="schoolShield" src="Logo UE.png" alt="Escudo de la Unidad Educativa"
+             onerror="this.style.display='none';document.getElementById('shieldFallback').style.display='grid';">
+        <div>
+          <p class="eyebrow">SISTEMAS INFORMÁTICOS / TECNOLOGÍA</p>
+          <h1>Evaluación de HTML</h1>
+          <p>5.º de Secundaria </p>
+        </div>
+      </div>
+      <button id="teacherBtn" class="btn btn-outline" type="button">Panel docente</button>
+    </header>
+
+    <main>
+      <section id="startScreen" class="card start-card">
+        <h2>Evaluación </h2>
+        <p class="muted">Lee cuidadosamente cada pregunta. Una vez iniciada la evaluación, el tiempo comenzará a correr.</p>
+
+        <div class="rules">
+          <div><strong>45</strong><span>preguntas</span></div>
+          <div><strong>45</strong><span>puntos</span></div>
+          <div><strong>45:00</strong><span>tiempo</span></div>
+        </div>
+
+        <form id="studentForm" autocomplete="off">
+          <div class="grid-2">
+            <label>Nombre completo
+              <input id="studentName" maxlength="80" required placeholder="Ej.: Juan Pérez">
+            </label>
+            <label>Curso / paralelo
+              <input id="studentCourse" maxlength="30" required placeholder="Ej.: 5to A">
+            </label>
+          </div>
+          <label>Registro / código del estudiante
+            <input id="studentCode" maxlength="30" required placeholder="Ej.: 001">
+          </label>
+
+          <label class="check">
+            <input id="acceptRules" type="checkbox" required>
+            <span>Declaro que realizaré la evaluación individualmente y acepto las reglas de seguridad.</span>
+          </label>
+
+          <button class="btn btn-primary btn-large" type="submit">Iniciar evaluación</button>
+        </form>
+
+        <div class="security-note">
+          <strong>Seguridad activa:</strong> cambio de pestaña/ventana, salida de pantalla, copiar/pegar y recarga durante la evaluación pueden anular el intento.
+        </div>
+      </section>
+
+      <section id="examScreen" class="hidden">
+        <div class="exam-topbar">
+          <div>
+            <span class="student-label">Estudiante</span>
+            <strong id="liveStudent"></strong>
+          </div>
+          <div class="progress-box">
+            <span id="progressText">0 / 45</span>
+            <div class="progress"><div id="progressBar"></div></div>
+          </div>
+          <div id="timer" class="timer" aria-live="polite">20:00</div>
+        </div>
+
+        <div id="securityWarning" class="security-warning hidden"></div>
+        <form id="examForm">
+          <div id="questions"></div>
+          <button id="finishBtn" class="btn btn-primary btn-large finish-btn" type="submit">Finalizar evaluación</button>
+        </form>
+      </section>
+
+      <section id="resultScreen" class="card result-card hidden">
+        <div id="resultIcon" class="result-icon">✓</div>
+        <h2 id="resultTitle">Evaluación finalizada</h2>
+        <p id="resultMessage"></p>
+        <div class="score-display">
+          <span id="scoreNumber">0</span><small>/45</small>
+        </div>
+        <div id="resultDetails" class="result-details"></div>
+        <button id="newAttemptBtn" class="btn btn-outline">Volver al inicio</button>
+      </section>
+
+      <section id="teacherScreen" class="card teacher-screen hidden">
+        <div class="teacher-head">
+          <div>
+            <span class="eyebrow">ADMINISTRACIÓN</span>
+            <h2>Panel docente</h2>
+          </div>
+          <button id="closeTeacherBtn" class="btn btn-outline" type="button">Cerrar</button>
+        </div>
+
+        <div id="teacherLogin">
+          <p class="muted">Ingrese la contraseña del docente para consultar los resultados guardados en este navegador.</p>
+          <form id="teacherLoginForm">
+            <input id="teacherPassword" type="password" placeholder="Contraseña docente" required autocomplete="current-password">
+            <button class="btn btn-primary" type="submit">Acceder</button>
+          </form>
+          <p class="hint"></code>.<code></code>.</p>
+        </div>
+
+        <div id="teacherPanel" class="hidden">
+          <div class="teacher-actions">
+            <div class="stats">
+              <div><strong id="totalAttempts">0</strong><span>Evaluaciones</span></div>
+              <div><strong id="averageScore">0</strong><span>Promedio</span></div>
+              <div><strong id="highestScore">0</strong><span>Mayor puntaje</span></div>
+            </div>
+            <div class="action-row">
+              <button id="exportBtn" class="btn btn-primary" type="button">Exportar CSV</button>
+              <button id="clearResultsBtn" class="btn btn-danger" type="button">Borrar resultados</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>#</th><th>Estudiante</th><th>Curso</th><th>Código</th><th>Puntaje</th><th>%</th><th>Estado</th><th>Fecha</th></tr>
+              </thead>
+              <tbody id="resultsBody"></tbody>
+            </table>
+          </div>
+          <p class="hint">Nota: este panel guarda resultados en el navegador mediante localStorage. Para una lista centralizada de varios equipos por LAN se necesita un servidor/backend.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
